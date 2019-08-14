@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/ET_Reviewnotify",
+    "type": "magento-module",
+    "license": "ETWS-Free-License-(EFL1)",
+    "homepage": "",
+    "description": "Extension notifies store owner about new reviews and complicates automatic review posting for spam bots",
+    "authors": [
+    {
+        "name": "Jurij",
+        "email": "support@etwebsolutions.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
