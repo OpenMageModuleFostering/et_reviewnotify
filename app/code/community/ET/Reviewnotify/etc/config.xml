@@ -23,7 +23,7 @@
     <modules>
         <ET_Reviewnotify>
             <name>ET Review Notify</name>
-            <version>1.0.0</version>
+            <version>1.2.0</version>
             <descr>
                 <ru_RU><![CDATA[Модуль добавляет функцию оповещения владельца сайта о появлении новых отзывов и затрудняет спам-ботам автоматическое размещение отзывов.]]>
                 </ru_RU>
@@ -50,22 +50,33 @@
         </ET_Reviewnotify>
     </modules>
     <global>
-        <rewrite>
-            <review>
-                <from><![CDATA[#^/review/product/#]]></from>
-                <to>/etreviewnotify/product/</to>
-            </review>
-        </rewrite>
+
+        <events>
+            <controller_front_init_before>
+                <observers>
+                    <et_reviewnotify_model_rewrite>
+                        <type>model</type>
+                        <class>reviewnotify/observer</class>
+                        <method>rewriteReviewModel</method>
+                    </et_reviewnotify_model_rewrite>
+                    <et_reviewnotify_controller_rewrite>
+                        <type>model</type>
+                        <class>reviewnotify/observer</class>
+                        <method>rewriteReviewProductController</method>
+                    </et_reviewnotify_controller_rewrite>
+                    <et_reviewnotify_block_rewrite>
+                        <type>model</type>
+                        <class>reviewnotify/observer</class>
+                        <method>rewriteReviewProductBlockViewList</method>
+                    </et_reviewnotify_block_rewrite>
+                </observers>
+            </controller_front_init_before>
+        </events>
 
         <models>
             <reviewnotify>
                 <class>ET_Reviewnotify_Model</class>
             </reviewnotify>
-            <review>
-                <rewrite>
-                    <review>ET_Reviewnotify_Model_Review</review>
-                </rewrite>
-            </review>
         </models>
 
         <helpers>
@@ -97,6 +108,8 @@
                 <need_send>0</need_send>
                 <need_notify>1</need_notify>
                 <antispam>0</antispam>
+                <is_enabled_review_visibility_for_author>0</is_enabled_review_visibility_for_author>
+                <review_visibility_for_author>2</review_visibility_for_author>
             </review>
         </catalog>
     </default>
@@ -104,15 +117,15 @@
 
     <frontend>
         <events>
-            <review_review_save_after>
+            <review_save_after>
                 <observers>
                     <et_reviewnotify_observer>
                         <type>singleton</type>
                         <class>reviewnotify/observer</class>
-                        <method>send_nofificatin_mail</method>
+                        <method>sendNotificationEmail</method>
                     </et_reviewnotify_observer>
                 </observers>
-            </review_review_save_after>
+            </review_save_after>
         </events>
 
         <routers>

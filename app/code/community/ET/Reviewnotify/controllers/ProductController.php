@@ -18,18 +18,33 @@
  */
 
 require_once 'Mage/Review/controllers/ProductController.php';
+
+/**
+ * Class ET_Reviewnotify_ProductController
+ */
 class ET_Reviewnotify_ProductController extends Mage_Review_ProductController
 {
     const SECRET_KEY = "ET_Special_Codes_String";
 
+    /**
+     * Prepost Action, that is called before Post Action
+     * if Anti Spam function is enabled and our JS has changed URLS
+     *
+     * if bots are not used JS or our JS in not loaded this action
+     * if not called and no secure data is added to form
+     */
     public function prepostAction()
     {
-        $result = array("sequence"=>$this->_calculateCode($this->getRequest()->getPost()));
+        $result = array("sequence" => $this->_calculateCode($this->getRequest()->getPost()));
         $this->getResponse()->setBody(
-            '<script>window.parent.postReviewRestoreData("'.$result["sequence"].'")</script>'
+            '<script>window.parent.postReviewRestoreData("' . $result["sequence"] . '")</script>'
         );
     }
 
+    /**
+     * Submit new review action if anti spam function is enabled
+     * In no secure data in form we do not post review and show error
+     */
     public function postAction()
     {
         $data = $this->getRequest()->getPost();
@@ -38,6 +53,7 @@ class ET_Reviewnotify_ProductController extends Mage_Review_ProductController
                 $data["sequence"] = "";
             }
             if (strcmp($data["sequence"], $this->_calculateCode($data)) != 0) {
+                /** @var Mage_Catalog_Model_Session $session */
                 $session = Mage::getSingleton('core/session');
                 $session->setFormData($data);
                 $session->addError($this->__('Unable to post the review.'));
@@ -52,12 +68,18 @@ class ET_Reviewnotify_ProductController extends Mage_Review_ProductController
         return parent::postAction();
     }
 
+    /**
+     * Prepare secret string from from data
+     *
+     * @param array $data
+     * @return string
+     */
     protected function _calculateCode($data)
     {
         $allKeys = array("title", "nickname", "detail");
         $allForGen = array(self::SECRET_KEY);
         foreach ($allKeys as $oneKey) {
-            $allForGen[] = isset($data[$oneKey])?$data[$oneKey]:rand();
+            $allForGen[] = isset($data[$oneKey]) ? $data[$oneKey] : rand();
         }
         return md5(implode("|", $allForGen));
     }

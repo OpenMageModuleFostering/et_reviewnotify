@@ -17,13 +17,25 @@
  * @license    http://shop.etwebsolutions.com/etws-license-free-v1/   ETWS Free License (EFL1)
  */
 
+/**
+ * Class ET_Reviewnotify_Block_Adminhtml_System_Config_Form_Field_Linktoinfo
+ */
 class ET_Reviewnotify_Block_Adminhtml_System_Config_Form_Field_Linktoinfo
     extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
+    /**
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     *
+     * @inheritdoc
+     */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        return '<a href="' . $this->getUrl('*/system_config/edit', array('section' => 'reviewnotify')) . '">' .
-            Mage::helper('reviewnotify')->__('Extension information') .
-            '</a>';
+        /** @var ET_Reviewnotify_Helper_Data $helper */
+        $helper = Mage::helper('reviewnotify');
+
+        $html = '<a href="' . $this->getUrl('*/system_config/edit', array('section' => 'reviewnotify')) . '">' .
+            $helper->__('Extension information') . '</a>';
+        return $html;
     }
-} 
+}

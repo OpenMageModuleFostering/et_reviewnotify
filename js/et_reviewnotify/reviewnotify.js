@@ -35,4 +35,4 @@ function postReviewRestoreData(sequence)
     $("review-form").writeAttribute("target","_self");
     $("review-form").writeAttribute("action",$("review-form").readAttribute("oldurl"));
     $("review-form").submit();
-}
+};

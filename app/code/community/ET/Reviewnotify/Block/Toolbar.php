@@ -17,6 +17,9 @@
  * @license    http://shop.etwebsolutions.com/etws-license-free-v1/   ETWS Free License (EFL1)
  */
 
+/**
+ * Class ET_Reviewnotify_Block_Toolbar
+ */
 class ET_Reviewnotify_Block_Toolbar extends Mage_Adminhtml_Block_Template
 {
     /**
@@ -55,7 +58,7 @@ class ET_Reviewnotify_Block_Toolbar extends Mage_Adminhtml_Block_Template
      */
     public function getReviewUrl($product)
     {
-        $params = array('id'=>$product->getReviewId());
+        $params = array('id' => $product->getData('review_id'));
         return $this->getUrl('*/catalog_product_review/edit', $params);
     }
 

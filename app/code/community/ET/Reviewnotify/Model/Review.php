@@ -17,7 +17,12 @@
  * @license    http://shop.etwebsolutions.com/etws-license-free-v1/   ETWS Free License (EFL1)
  */
 
+/**
+ * In old Magento versions no prefix available for class Mage_Review_Model_Review
+ *
+ * Class ET_Reviewnotify_Model_Review
+ */
 class ET_Reviewnotify_Model_Review extends Mage_Review_Model_Review
 {
-    protected $_eventPrefix = 'review_review';
+    protected $_eventPrefix = 'review';
 }
